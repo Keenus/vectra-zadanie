@@ -1,0 +1,94 @@
+<div class="content p-4">
+
+  <button routerLink="/home" mat-button color="primary">
+    <mat-icon>
+      arrow_back
+    </mat-icon>
+    Powrót do strony głównej
+  </button>
+
+  <mat-stepper class="mt-4" linear>
+
+    <mat-step [stepControl]="basicInfo" label="Dane podstawowe" >
+      <form [formGroup]="basicInfo">
+        <mat-form-field class="custom-form-field">
+          <mat-label>Imię</mat-label>
+          <input matInput placeholder="Imię" formControlName="first_name" required>
+          @if(basicInfo.get('first_name')?.invalid) {
+            <mat-error>Imię jest wymagane</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="custom-form-field">
+          <mat-label>Nazwisko</mat-label>
+          <input matInput placeholder="Nazwisko" formControlName="last_name" required>
+          @if(basicInfo.get('last_name')?.invalid) {
+            <mat-error>Nazwisko jest wymagane</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="custom-form-field">
+          <mat-label>Numer telefonu</mat-label>
+          <input matInput placeholder="Numer telefonu" formControlName="phone" required>
+          @if(basicInfo.get('phone')?.invalid) {
+            <mat-error>Numer telefonu musi składać się z 9 cyfr</mat-error>
+          }
+        </mat-form-field>
+        <div>
+          <button matButton matStepperNext>Dalej</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="interests" label="Zainteresowania">
+      <small>Wpisz zainteresownie i zatwierdź klikając <strong>ENTER</strong> aby dodać</small>
+        <mat-form-field class="custom-form-field">
+          <mat-label>Zainteresowania</mat-label>
+
+          <mat-chip-grid  #interestsGrid aria-label="Wpisz swoje zainteresowania" [formControl]="interests">
+            @for (item of interestsArray(); track item) {
+                <mat-chip-row (removed)="remove(item)">
+                  {{item}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              }
+            <input
+              placeholder="np. podróże, fotografia"
+              [matChipInputFor]="interestsGrid"
+              (matChipInputTokenEnd)="add($event)"
+            />
+          </mat-chip-grid>
+        </mat-form-field>
+
+        <div>
+          <button matButton matStepperPrevious>Powrót</button>
+          <button matButton matStepperNext>Dalej</button>
+        </div>
+    </mat-step>
+
+    <mat-step label="Podsumowanie">
+
+      <mat-card class="p-4">
+        <mat-card-title> Podsumowanie danych </mat-card-title>
+        <mat-card-content>
+          <p><strong>Imię:</strong> {{ basicInfo.value.first_name }}</p>
+          <p><strong>Nazwisko:</strong> {{ basicInfo.value.last_name }}</p>
+          <p><strong>Numer telefonu:</strong> {{ basicInfo.value.phone }}</p>
+          <p>
+            <strong>Zainteresowania:</strong>
+            @for (item of interestsArray(); track item) {
+              {{ item }}@if (item !== interestsArray()[interestsArray().length - 1]) { , }
+            }
+          </p>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="mt-4">
+        <button matButton matStepperPrevious>Powrót</button>
+        <button mat-flat-button (click)="save()">Zapisz</button>
+      </div>
+
+    </mat-step>
+
+  </mat-stepper>
+</div>

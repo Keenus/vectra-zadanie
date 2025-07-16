@@ -1,0 +1,68 @@
+<section class="p-4">
+
+  <header>
+    <mat-form-field>
+      <input (input)="search($event)" matInput type="search" placeholder="Wyszukaj klienta" aria-label="Wyszukaj klienta">
+      <button matSuffix mat-icon-button aria-label="Wyszukaj klienta">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <button matButton color="primary" routerLink="/add-customer">
+      <mat-icon>add</mat-icon>
+      Dodaj klienta
+    </button>
+  </header>
+
+  @if ((error | async) && (error | async) !== 'null') {
+    <div class="alert alert-danger mt-4">
+      <strong>Błąd!</strong> {{ error | async }}
+    </div>
+  } @else if((isLoading | async )) {
+    <p>
+      Trwa ładowanie danych...
+    </p>
+  } @else if ((customers | async )) {
+    <table mat-table class="mat-elevation-z8 mt-4" [dataSource]="customers" matSort (matSortChange)="announceSortChange($event)">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef > Lp. </th>
+        <td mat-cell *matCellDef="let customer; let i = index"> {{ i + 1 }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="first_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Imię </th>
+        <td mat-cell *matCellDef="let customer"> {{ customer.first_name }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="last_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwisko </th>
+        <td mat-cell *matCellDef="let customer"> {{ customer.last_name }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Numer telefonu </th>
+        <td mat-cell *matCellDef="let customer"> {{ customer.phone }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="interests">
+        <th mat-header-cell *matHeaderCellDef > Zainteresowania </th>
+        <td mat-cell *matCellDef="let customer">
+          @for (interest of customer.interests; track interest; let  i = $index) {
+            <span class="badge badge-primary">
+            {{ i == 0 ? interest : ', ' + interest }}
+          </span>
+          }
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let data; columns: columns"></tr>
+    </table>
+  } @else {
+    <p class="mt-4">
+      Brak klientów w bazie danych.
+    </p>
+  }
+
+</section>
