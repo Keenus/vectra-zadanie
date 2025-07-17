@@ -6,8 +6,9 @@ import {
   loadCustomersFailure,
   loadCustomersSuccess, setSearchTerm, sortCustomers
 } from './customers.actions';
+import {Customer} from './customer.model';
 export interface CustomersState {
-  customers: any[];
+  customers: Customer[];
   searchTerm: string;
   loading: boolean;
   error: string | null;
@@ -22,7 +23,6 @@ export const initialState: CustomersState = {
 
 export const customersReducer = createReducer(
   initialState,
-  // ładowanie danych
   on(
     loadCustomers,
     (state) => ({ ...state, loading: true, error: null })
@@ -35,7 +35,6 @@ export const customersReducer = createReducer(
     loadCustomersFailure,
     (state, { payload }) => ({ ...state, loading: false, error: payload })
   ),
-  // tworzenie nowego klienta
   on(
     createCustomer,
     (state) => ({
@@ -70,9 +69,10 @@ export const customersReducer = createReducer(
     sortCustomers,
     (state, { payload }) => ({
       ...state,
-      customers: [...state.customers].sort((a, b) => {
-        const valueA = a[payload.active];
-        const valueB = b[payload.active];
+      customers: [...state.customers].sort((a: Customer, b: Customer) => {
+        const key = payload.active as keyof Customer
+        const valueA = a[key].toString().toLowerCase();
+        const valueB = b[key].toString().toLowerCase()
         return payload.direction === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
       })
     })

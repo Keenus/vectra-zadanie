@@ -14,7 +14,7 @@ export const selectCustomersLoading = createSelector(
 
 export const selectCustomersError = createSelector(
   selectCustomersState,
-  (state: CustomersState) => state.error + ''
+  (state: CustomersState) => state.error as string
 );
 
 export const selectSearchTerm = createSelector(

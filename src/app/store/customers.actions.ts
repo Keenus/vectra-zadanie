@@ -5,7 +5,7 @@ export const loadCustomers = createAction('[Customers] Load Customers');
 
 export const loadCustomersSuccess = createAction(
   '[Customers] Load Success',
-  (customers: any[]) => ({ payload: customers })
+  (customers: Customer[]) => ({ payload: customers })
 );
 
 export const loadCustomersFailure = createAction(

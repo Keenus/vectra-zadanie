@@ -35,7 +35,7 @@ export class CustomersEffects {
 
   createCustomer$ = createEffect(() => this.actions$.pipe(
     ofType(createCustomer),
-    mergeMap((action: any) =>
+    mergeMap((action) =>
       this.customersService.createCustomer(action.payload)
       .pipe(
         map(customer => (createCustomerSuccess(customer))),

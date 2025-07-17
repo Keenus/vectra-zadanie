@@ -50,7 +50,7 @@
         <td mat-cell *matCellDef="let customer">
           @for (interest of customer.interests; track interest; let  i = $index) {
             <span class="badge badge-primary">
-            {{ i == 0 ? interest : ', ' + interest }}
+            {{ i == 0 ? interest : `, ${interest}` }}
           </span>
           }
         </td>

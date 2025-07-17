@@ -65,7 +65,7 @@ export class AddCustomerComponent {
     }
   }
 
-  save(){
+  save(): void{
     if(this.basicInfo.invalid) {
       alert('Uzupełnij wszystkie wymagane pola!');
       return;
