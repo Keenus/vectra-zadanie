@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {delay, of} from 'rxjs';
+import {delay, Observable, of} from 'rxjs';
 import {Customer} from '../../store/customer.model';
 
 @Injectable({
@@ -7,21 +7,21 @@ import {Customer} from '../../store/customer.model';
 })
 export class CustomersService {
 
-  loadFromLocalStorage() {
+  loadFromLocalStorage(): Customer[] {
     const customers = localStorage.getItem('customers');
-    return customers ? JSON.parse(customers) : [];
+    return customers ? JSON.parse(customers) : []
   }
 
-  getAllCustomers() {
+  getAllCustomers(): Observable<Customer[]> {
     const data = this.loadFromLocalStorage();
     return of(data).pipe(delay(300));
   }
 
-  createCustomer(customer: Customer) {
+  createCustomer(customer: Customer): Observable<Customer>  {
     const data = this.loadFromLocalStorage();
     const updated = [...data, customer];
     localStorage.setItem('customers', JSON.stringify(updated));
-    return of(customer);
+    return of(customer).pipe(delay(300));
   }
 
 }

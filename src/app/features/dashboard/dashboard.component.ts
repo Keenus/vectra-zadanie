@@ -54,7 +54,6 @@ import {toObservable, toSignal} from '@angular/core/rxjs-interop';
     AsyncPipe
   ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit{
   private store = inject(Store)
@@ -88,12 +87,12 @@ export class DashboardComponent implements OnInit{
     this.store.dispatch(loadCustomers());
   }
 
-  search(event: any){
-    const value = event.target.value;
+  search(event: Event): void{
+    const value = (event.target as HTMLInputElement).value;
     this.searchTerm.set(value);
   }
 
-  announceSortChange(sortState: Sort) {
+  announceSortChange(sortState: Sort): void {
     this.store.dispatch(sortCustomers({ active: sortState.active, direction: sortState.direction? sortState.direction : 'asc' }));
   }
 
