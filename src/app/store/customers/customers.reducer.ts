@@ -1,24 +1,26 @@
 import { createReducer, on } from '@ngrx/store';
 import {
+  clearFormData,
   createCustomer, createCustomerFailure,
-  createCustomerSuccess,
+  createCustomerSuccess, initializeFormData,
   loadCustomers,
   loadCustomersFailure,
-  loadCustomersSuccess, setSearchTerm, sortCustomers
+  loadCustomersSuccess, saveBasicInfo, saveInterests, setSearchTerm, sortCustomers
 } from './customers.actions';
-import {CustomerInterface} from './customer.model';
-export interface CustomersState {
-  customers: CustomerInterface[];
-  searchTerm: string;
-  loading: boolean;
-  error: string | null;
-}
+import {CustomerInterface, CustomersState} from './customer.model';
 
 export const initialState: CustomersState = {
   customers: [],
   searchTerm: '',
   loading: false,
-  error: null
+  error: null,
+  formData: {
+    first_name: '',
+    last_name: '',
+    phone: '',
+    interests: []
+  },
+  isFormInitialized: false
 };
 
 export const customersReducer = createReducer(
@@ -47,7 +49,14 @@ export const customersReducer = createReducer(
     (state, { payload }) => ({
       ...state,
       customers: [...state.customers, payload],
-      loading: false
+      loading: false,
+      formData: {
+        first_name: '',
+        last_name: '',
+        phone: '',
+        interests: []
+      },
+      isFormInitialized: false
     })
   ),
   on(
@@ -75,6 +84,55 @@ export const customersReducer = createReducer(
         const valueB = b[key].toString().toLowerCase()
         return payload.direction === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
       })
+    })
+  ),
+  on(
+    saveBasicInfo,
+    (state, { payload }) => ({
+      ...state,
+      formData: {
+        ...state.formData,
+        first_name: payload.first_name,
+        last_name: payload.last_name,
+        phone: payload.phone
+      },
+      isFormInitialized: true
+    })
+  ),
+  on(
+    saveInterests,
+    (state, { payload }) => ({
+      ...state,
+      formData: {
+        ...state.formData,
+        interests: payload
+      }
+    })
+  ),
+  on(
+    clearFormData,
+    (state) => ({
+      ...state,
+      formData: {
+        first_name: '',
+        last_name: '',
+        phone: '',
+        interests: []
+      },
+      isFormInitialized: false
+    })
+  ),
+  on(
+    initializeFormData,
+    (state, { payload }) => ({
+      ...state,
+      formData: {
+        first_name: payload?.first_name || '',
+        last_name: payload?.last_name || '',
+        phone: payload?.phone || '',
+        interests: payload?.interests || []
+      },
+      isFormInitialized: true
     })
   )
 );

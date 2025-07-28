@@ -1,18 +1,30 @@
 <div class="content p-4">
 
-  <button routerLink="/home" mat-button color="primary">
-    <mat-icon>
-      arrow_back
-    </mat-icon>
-    Powrót do strony głównej
-  </button>
+  <div class="flex justify-between items-center mb-4">
+    <button routerLink="/home" mat-button color="primary">
+      <mat-icon>arrow_back</mat-icon>
+      Powrót do strony głównej
+    </button>
+
+    <button mat-button color="warn" (click)="clearForm()" title="Wyczyść wszystkie dane formularza">
+      <mat-icon>clear</mat-icon>
+      Wyczyść formularz
+    </button>
+  </div>
 
   <mat-stepper class="mt-4" linear>
 
-    <mat-step [stepControl]="basicInfo" label="Dane podstawowe" >
+    <mat-step [stepControl]="basicInfo" label="Dane podstawowe">
       <app-basic-info-step [formGroup]="basicInfo"></app-basic-info-step>
       <div class="mt-4">
-        <button matButton matStepperNext>Dalej</button>
+        <button
+          matButton
+          matStepperNext
+          [disabled]="basicInfo.invalid"
+          (click)="onBasicInfoStepNext()"
+          color="primary">
+          Dalej
+        </button>
       </div>
     </mat-step>
 
@@ -25,19 +37,29 @@
 
       <div class="mt-4">
         <button matButton matStepperPrevious>Powrót</button>
-        <button matButton matStepperNext>Dalej</button>
+        <button
+          matButton
+          matStepperNext
+          (click)="onInterestsStepNext()"
+          color="primary">
+          Dalej
+        </button>
       </div>
     </mat-step>
 
     <mat-step label="Podsumowanie">
-
       <app-summary-step [basicInfo]="basicInfo" [interests]="interests"></app-summary-step>
 
       <div class="mt-4">
         <button matButton matStepperPrevious>Powrót</button>
-        <button mat-flat-button (click)="save()">Zapisz</button>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="save()"
+          [disabled]="basicInfo.invalid">
+          Zapisz
+        </button>
       </div>
-
     </mat-step>
 
   </mat-stepper>

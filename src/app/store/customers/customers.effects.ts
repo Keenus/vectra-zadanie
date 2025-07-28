@@ -4,11 +4,12 @@ import {of, tap} from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { CustomersService } from '../../core/service/customers.service';
 import {
+  clearFormData,
   createCustomer, createCustomerFailure,
   createCustomerSuccess,
   loadCustomers,
   loadCustomersFailure,
-  loadCustomersSuccess
+  loadCustomersSuccess, saveBasicInfo, saveInterests
 } from './customers.actions';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -52,4 +53,37 @@ export class CustomersEffects {
       this._snackBar.open('Dodano klienta', 'OK')
     })
     ), { dispatch: false})
+
+  saveBasicInfoToLocalStorage$ = createEffect(() => this.actions$.pipe(
+    ofType(saveBasicInfo),
+    tap((action) => {
+      const currentData = JSON.parse(localStorage.getItem('customerFormData') || '{}');
+      const updatedData = {
+        ...currentData,
+        ...action.payload,
+        lastUpdated: new Date().toISOString()
+      };
+      localStorage.setItem('customerFormData', JSON.stringify(updatedData));
+    })
+  ), { dispatch: false });
+
+  saveInterestsToLocalStorage$ = createEffect(() => this.actions$.pipe(
+    ofType(saveInterests),
+    tap((action) => {
+      const currentData = JSON.parse(localStorage.getItem('customerFormData') || '{}');
+      const updatedData = {
+        ...currentData,
+        interests: action.payload,
+        lastUpdated: new Date().toISOString()
+      };
+      localStorage.setItem('customerFormData', JSON.stringify(updatedData));
+    })
+  ), { dispatch: false });
+
+  clearFormDataFromLocalStorage$ = createEffect(() => this.actions$.pipe(
+    ofType(clearFormData),
+    tap(() => {
+      localStorage.removeItem('customerFormData');
+    })
+  ), { dispatch: false });
 }

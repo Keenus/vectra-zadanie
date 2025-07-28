@@ -12,3 +12,19 @@ export interface CustomerBasicInfoFormInterface {
   last_name: FormControl<string>;
   phone: FormControl<string>;
 }
+
+export interface CustomerFormData {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  interests: string[];
+}
+
+export interface CustomersState {
+  customers: CustomerInterface[];
+  searchTerm: string;
+  loading: boolean;
+  error: string | null;
+  formData: CustomerFormData;
+  isFormInitialized: boolean;
+}

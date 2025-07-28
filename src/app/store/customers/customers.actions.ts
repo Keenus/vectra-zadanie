@@ -37,3 +37,22 @@ export const setSearchTerm = createAction(
   '[Customers] Set Search Term',
   (searchTerm?: string ) => ({ payload: searchTerm })
 );
+
+export const saveBasicInfo = createAction(
+  '[Customer Form] Save Basic Info',
+  (basicInfo: { first_name: string; last_name: string; phone: string }) => ({ payload: basicInfo })
+);
+
+export const saveInterests = createAction(
+  '[Customer Form] Save Interests',
+  (interests: string[]) => ({ payload: interests })
+);
+
+export const clearFormData = createAction(
+  '[Customer Form] Clear Form Data'
+);
+
+export const initializeFormData = createAction(
+  '[Customer Form] Initialize Form Data',
+  (formData?: Partial<CustomerInterface>) => ({ payload: formData })
+);
