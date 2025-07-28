@@ -61,15 +61,6 @@ export const selectIsFormInitialized = createSelector(
   (state) => state.isFormInitialized
 );
 
-export const selectIsBasicInfoComplete = createSelector(
-  selectBasicInfo,
-  (basicInfo) =>
-    basicInfo.first_name.length >= 3 &&
-    basicInfo.last_name.length >= 3 &&
-    basicInfo.phone.length === 9 &&
-    /^\+?[0-9\s]+$/.test(basicInfo.phone)
-);
-
 export const selectCompleteCustomerData = createSelector(
   selectFormData,
   (formData) => formData
