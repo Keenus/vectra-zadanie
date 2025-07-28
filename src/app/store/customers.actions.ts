@@ -1,11 +1,11 @@
 import { createAction } from '@ngrx/store';
-import {Customer} from './customer.model';
+import {CustomerInterface} from './customer.model';
 
 export const loadCustomers = createAction('[Customers] Load Customers');
 
 export const loadCustomersSuccess = createAction(
   '[Customers] Load Success',
-  (customers: Customer[]) => ({ payload: customers })
+  (customers: CustomerInterface[]) => ({ payload: customers })
 );
 
 export const loadCustomersFailure = createAction(
@@ -15,12 +15,12 @@ export const loadCustomersFailure = createAction(
 
 export const createCustomer = createAction(
   '[Customers] Create Customer',
-  (customer: Customer) => ({ payload: customer })
+  (customer: CustomerInterface) => ({ payload: customer })
 );
 
 export const createCustomerSuccess = createAction(
   '[Customers] Create Success',
-  (customer: Customer) => ({ payload: customer })
+  (customer: CustomerInterface) => ({ payload: customer })
 );
 
 export const createCustomerFailure = createAction(

@@ -6,9 +6,9 @@ import {
   loadCustomersFailure,
   loadCustomersSuccess, setSearchTerm, sortCustomers
 } from './customers.actions';
-import {Customer} from './customer.model';
+import {CustomerInterface} from './customer.model';
 export interface CustomersState {
-  customers: Customer[];
+  customers: CustomerInterface[];
   searchTerm: string;
   loading: boolean;
   error: string | null;
@@ -69,8 +69,8 @@ export const customersReducer = createReducer(
     sortCustomers,
     (state, { payload }) => ({
       ...state,
-      customers: [...state.customers].sort((a: Customer, b: Customer) => {
-        const key = payload.active as keyof Customer
+      customers: [...state.customers].sort((a: CustomerInterface, b: CustomerInterface) => {
+        const key = payload.active as keyof CustomerInterface
         const valueA = a[key].toString().toLowerCase();
         const valueB = b[key].toString().toLowerCase()
         return payload.direction === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);

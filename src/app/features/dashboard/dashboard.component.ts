@@ -1,7 +1,7 @@
 import {Component, effect, inject, OnInit, signal} from '@angular/core';
 import {debounceTime, Observable} from 'rxjs';
 import {loadCustomers, setSearchTerm, sortCustomers} from '../../store/customers.actions';
-import {Customer} from '../../store/customer.model';
+import {CustomerInterface} from '../../store/customer.model';
 import {Store} from '@ngrx/store';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
@@ -58,7 +58,7 @@ import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 export class DashboardComponent implements OnInit{
   private store = inject(Store)
 
-  customers: Observable<Customer[]>;
+  customers: Observable<CustomerInterface[]>;
   isLoading: Observable<boolean>;
   error: Observable<string | null>;
 

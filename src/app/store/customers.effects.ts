@@ -11,11 +11,13 @@ import {
   loadCustomersSuccess
 } from './customers.actions';
 import {Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable()
 export class CustomersEffects {
 
   private customersService = inject(CustomersService)
+  private _snackBar = inject(MatSnackBar)
   private actions$ = inject(Actions)
   private router = inject(Router)
 
@@ -47,7 +49,7 @@ export class CustomersEffects {
     ofType(createCustomerSuccess),
     tap(() => {
       this.router.navigate(['/home'])
-      alert('Dodano klienta');
+      this._snackBar.open('Dodano klienta', 'OK')
     })
     ), { dispatch: false})
 }

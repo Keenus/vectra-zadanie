@@ -44,8 +44,8 @@
           <mat-label>Zainteresowania</mat-label>
 
           <mat-chip-grid  #interestsGrid aria-label="Wpisz swoje zainteresowania" [formControl]="interests">
-            @for (item of interestsArray(); track item) {
-                <mat-chip-row (removed)="remove(item)">
+            @for (item of interests.getRawValue(); track item) {
+                <mat-chip-row (removed)="removeInterest(item)">
                   {{item}}
                   <button matChipRemove>
                     <mat-icon>cancel</mat-icon>
@@ -55,7 +55,7 @@
             <input
               placeholder="np. podróże, fotografia"
               [matChipInputFor]="interestsGrid"
-              (matChipInputTokenEnd)="add($event)"
+              (matChipInputTokenEnd)="addInterest($event)"
             />
           </mat-chip-grid>
         </mat-form-field>
@@ -76,7 +76,7 @@
           <p><strong>Numer telefonu:</strong> {{ basicInfo.value.phone }}</p>
           <p>
             <strong>Zainteresowania:</strong>
-            @for (item of interestsArray(); track item; let i = $index) {
+            @for (item of interests.getRawValue(); track item; let i = $index) {
               {{ i === 0 ? item : `, ${item}` }}
             }
           </p>
