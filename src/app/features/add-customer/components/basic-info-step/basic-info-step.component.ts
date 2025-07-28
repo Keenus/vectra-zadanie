@@ -13,8 +13,6 @@ import {MatButton} from '@angular/material/button';
     MatLabel,
     MatError,
     MatInput,
-    MatStepperNext,
-    MatButton
   ],
   templateUrl: './basic-info-step.component.html',
   styleUrl: './basic-info-step.component.scss'

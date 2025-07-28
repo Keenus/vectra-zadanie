@@ -19,7 +19,7 @@ import {
   selectBasicInfo,
   selectInterests,
   selectIsFormInitialized,
-  selectCompleteCustomerData
+  selectCompleteCustomerData, selectFormData
 } from '../../store/customers/customers.selectors';
 
 @Component({
@@ -62,6 +62,8 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
           this.loadFormDataFromStore();
         }
       });
+
+    this.store.select(selectFormData).pipe(takeUntil(this.destroy$))
   }
 
   ngOnDestroy(): void {

@@ -86,4 +86,9 @@ export class CustomersEffects {
       localStorage.removeItem('customerFormData');
     })
   ), { dispatch: false });
+
+  clearFormAfterSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(createCustomerSuccess),
+    map(() => clearFormData())
+  ))
 }
