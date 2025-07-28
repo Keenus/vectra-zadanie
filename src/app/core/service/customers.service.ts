@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {delay, Observable, of} from 'rxjs';
-import {CustomerInterface} from '../../store/customer.model';
+import {CustomerInterface} from '../../store/customers/customer.model';
 
 @Injectable({
   providedIn: 'root'

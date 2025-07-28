@@ -8,9 +8,12 @@ import {MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRemove, MatChipRow}
 import {MatIcon} from '@angular/material/icon';
 import {MatCard, MatCardContent, MatCardTitle} from '@angular/material/card';
 import {Store} from '@ngrx/store';
-import {createCustomer} from '../../store/customers.actions';
-import {CustomerBasicInfoFormInterface} from '../../store/customer.model';
+import {createCustomer} from '../../store/customers/customers.actions';
+import {CustomerBasicInfoFormInterface} from '../../store/customers/customer.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {BasicInfoStepComponent} from './components/basic-info-step/basic-info-step.component';
+import {InterestsStepComponent} from './components/interests-step/interests-step.component';
+import {SummaryStepComponent} from './components/summary-step/summary-step.component';
 
 @Component({
   selector: 'app-add-customer',
@@ -19,21 +22,13 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     MatButton,
     MatStepper,
     MatStep,
-    MatFormField,
     ReactiveFormsModule,
-    MatLabel,
-    MatInput,
     MatStepperNext,
     MatStepperPrevious,
-    MatChipGrid,
-    MatChipRow,
     MatIcon,
-    MatChipInput,
-    MatChipRemove,
-    MatCard,
-    MatCardTitle,
-    MatCardContent,
-    MatError
+    BasicInfoStepComponent,
+    InterestsStepComponent,
+    SummaryStepComponent
   ],
   templateUrl: './add-customer.component.html',
   styleUrl: './add-customer.component.scss'
@@ -43,14 +38,13 @@ export class AddCustomerComponent {
   private _snackBar = inject(MatSnackBar);
 
   basicInfo = new FormGroup<CustomerBasicInfoFormInterface>({
-    first_name: new FormControl<string>('', {nonNullable: true, validators: [Validators.required] }),
-    last_name: new FormControl<string>('', {nonNullable: true,validators: [Validators.required] }),
+    first_name: new FormControl<string>('', {nonNullable: true, validators: [Validators.required, Validators.minLength(3)] }),
+    last_name: new FormControl<string>('', {nonNullable: true,validators: [Validators.required, Validators.minLength(3)] }),
     phone: new FormControl<string>('', {nonNullable: true,validators: [Validators.required, Validators.pattern(/^\+?[0-9\s]+$/), Validators.minLength(9), Validators.maxLength(9)] })
   });
-
   interests = new FormControl<string[]>([], {nonNullable: true})
 
-  removeInterest(item: string) {
+  onRemoveInterest(item: string): void {
     const currentInterests = this.interests.value;
     const updatedInterests = currentInterests.filter(i => i != item);
     this.interests.setValue(updatedInterests);
@@ -58,10 +52,7 @@ export class AddCustomerComponent {
     this._snackBar.open('Zainteresowanie zostało usunięte')
   }
 
-  addInterest(event: MatChipInputEvent): void {
-    const input: HTMLInputElement = event.input;
-    const value = event.value.trim();
-
+  onAddInterest(value: string): void {
     const currentInterests = this.interests.value;
 
     if(value) {
@@ -71,7 +62,6 @@ export class AddCustomerComponent {
       }
       this.interests.setValue([...currentInterests, value]);
       this._snackBar.open('Dodano zainteresowanie')
-      input.value = '';
     } else {
       this._snackBar.open('Najpierw wpisz cokolwiek' )
     }
@@ -90,7 +80,5 @@ export class AddCustomerComponent {
       }
       this.store.dispatch(createCustomer(newCustomer));
     }
-
   }
-
 }

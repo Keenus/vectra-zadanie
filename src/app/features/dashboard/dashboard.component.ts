@@ -1,7 +1,7 @@
 import {Component, effect, inject, OnInit, signal} from '@angular/core';
 import {debounceTime, Observable} from 'rxjs';
-import {loadCustomers, setSearchTerm, sortCustomers} from '../../store/customers.actions';
-import {CustomerInterface} from '../../store/customer.model';
+import {loadCustomers, setSearchTerm, sortCustomers} from '../../store/customers/customers.actions';
+import {CustomerInterface} from '../../store/customers/customer.model';
 import {Store} from '@ngrx/store';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
@@ -9,7 +9,7 @@ import {
   selectCustomersError,
   selectCustomersLoading,
   selectFilteredCustomers
-} from '../../store/customers.selectors';
+} from '../../store/customers/customers.selectors';
 import {MatIcon} from '@angular/material/icon';
 import {
   MatCell, MatCellDef,

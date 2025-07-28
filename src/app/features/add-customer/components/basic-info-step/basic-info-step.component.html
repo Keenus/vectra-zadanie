@@ -1,0 +1,23 @@
+<form [formGroup]="formGroup()" class="basic-form">
+  <mat-form-field>
+    <mat-label>Imię</mat-label>
+    <input matInput placeholder="Imię" formControlName="first_name" required>
+    @if(formGroup().get('first_name')?.invalid) {
+      <mat-error>Imię jest wymagane (min. 3 znaki)</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Nazwisko</mat-label>
+    <input matInput placeholder="Nazwisko" formControlName="last_name" required>
+    @if(formGroup().get('last_name')?.invalid) {
+      <mat-error>Nazwisko jest wymagane (min. 3 znaki)</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Numer telefonu</mat-label>
+    <input matInput placeholder="Numer telefonu" formControlName="phone" required>
+    @if(formGroup().get('phone')?.invalid) {
+      <mat-error>Numer telefonu musi składać się z 9 cyfr</mat-error>
+    }
+  </mat-form-field>
+</form>

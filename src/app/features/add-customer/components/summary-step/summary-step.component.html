@@ -1,0 +1,16 @@
+<mat-card class="p-4">
+  <mat-card-title> Podsumowanie danych </mat-card-title>
+  <mat-card-content>
+    <p><strong>Imię:</strong> {{ basicInfo().value.first_name }}</p>
+    <p><strong>Nazwisko:</strong> {{ basicInfo().value.last_name }}</p>
+    <p><strong>Numer telefonu:</strong> {{ basicInfo().value.phone }}</p>
+    <p>
+      <strong>Zainteresowania:</strong>
+      @for (item of interests().value; track item; let i = $index) {
+        {{ i === 0 ? item : `, ${item}` }}
+      } @empty {
+        Brak zainteresowań
+      }
+    </p>
+  </mat-card-content>
+</mat-card>
