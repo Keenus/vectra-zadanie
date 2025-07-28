@@ -7,12 +7,6 @@ export interface CustomerInterface {
   interests: string[];
 }
 
-export interface BasicInfo {
-  first_name: string;
-  last_name: string;
-  phone: string;
-}
-
 export interface CustomerBasicInfoFormInterface {
   first_name: FormControl<string>;
   last_name: FormControl<string>;
